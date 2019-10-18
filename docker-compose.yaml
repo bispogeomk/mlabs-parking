@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+
+  # db:
+  #   image: postgres
+  #   environment: 
+  #     - POSTGRES_DB=mlabs_parking_development
+  #     - POSTGRES_PASSWORD=secret
+  #   volumes: 
+  #     - ./dockers/postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+
+  mlabs-parking:
+    build: .
+    # command: bundle exec rails s -p 3000 -b ‘0.0.0.0’
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+    environment: 
+      - RAILS_ENV=development
+      - NODE_ENV=development
+    volumes:
+      - ./source/mlabs-parking:/app
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   - db
