@@ -1,0 +1,72 @@
+kind: pipeline
+name: mlabs-parking
+
+steps:
+- name: tagging_hotfix
+  image: alpine/git
+  commands:
+    - echo "h$(git branch | grep \* | cut -d " " -f2 | cut -f2 -d"/" | cut -f2 -d"v")-$DRONE_BUILD_NUMBER" > .tags
+    
+  when:
+   branch:
+    - hotfix/* 
+
+- name: tagging_release
+  image: alpine/git
+  commands:
+    - echo "r$(git branch | grep \* | cut -d " " -f2 | cut -f2 -d"/" | cut -f2 -d"v")-$DRONE_BUILD_NUMBER" > .tags
+    
+  when:
+   branch:
+    - release/* 
+
+- name: tagging_release
+  image: alpine/git
+  commands:
+    - echo "$DRONE_BUILD_NUMBER" > .tags
+    
+  when:
+   branch:
+    - master 
+
+- name: build
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: REGISTRY_USERNAME
+    password:
+      from_secret: REGISTRY_PASSWORD
+    repo: 
+      from_secret: IMAGE_REPOSITORY
+    
+    registry: 
+        from_secret: REGISTRY_HOST
+        
+    dockerfile: dockers/djn012/Dockerfile
+
+- name: ticket
+  image: drillster/drone-email
+  settings:
+    host:
+     from_secret: SMTP_HOST
+    username:
+      from_secret: SMTP_USER
+    password:
+      from_secret: SMTP_PASSWORD
+    from: 
+      from_secret: SMTP_FROM
+    subject: Build {{repo.fullName}} na versão {{tag}}
+    recipients: [ bispo@det.ufc.br ]
+    body: Foi realizado o build com sucesso do projeto {{repo.fullName}}, na branch {{commit.branch}}, feito por {{commit.author.name}} e o mesmo precisa ser testado detalhes {{build.link}}.
+  
+  when:
+   status:
+    - success
+
+trigger:
+ branch:
+  - master
+  - hotfix/*
+  - release/*
+ event:
+ - push  
