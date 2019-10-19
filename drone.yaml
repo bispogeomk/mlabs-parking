@@ -64,9 +64,9 @@ steps:
     - success
 
 trigger:
- branch:
-  - master
-  - hotfix/*
-  - release/*
- event:
- - push  
+  branch:
+    - master
+    - hotfix/*
+    - release/*
+  event:
+    - push
