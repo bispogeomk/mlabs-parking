@@ -42,7 +42,7 @@ steps:
     registry: 
         from_secret: REGISTRY_HOST
         
-    dockerfile: dockers/djn012/Dockerfile
+    dockerfile: Dockerfile
 
 - name: ticket
   image: drillster/drone-email
