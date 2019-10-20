@@ -12,6 +12,7 @@ class ParkingController < ApplicationController
         @parking = Parking.create!(parking_params)
         @parking.car_in = Time.now
         @parking.car_out = nil
+        @parking.save
         json_response(@parking, :created)
     end
 
@@ -32,11 +33,31 @@ class ParkingController < ApplicationController
         head :no_content
     end
 
+    # GET /parking/:id/pay
+    def pay
+        @parking = Parking.find(params[:parking_id])
+        @parking.paid = true
+        @parking.save
+        json_response(@parking)
+    end
+
+    # GET /parking/:id/out
+    def out
+        @parking = Parking.find(params[:parking_id])
+        if @parking.paid
+            @parking.car_out = Time.now
+            json_response(@parking)
+        else
+            # head 402
+            json_response({"message" => "payment required"}, 402)
+        end
+    end
+
     private
 
     def parking_params
         # whitelist params
-        params.permit(:plate, :in_car, :out_car, :paid)
+        params.permit(:plate)
     end
 
     def set_parking
