@@ -1,7 +1,7 @@
 class ParkingController < ApplicationController
     before_action :set_parking, only: [:show, :update, :destroy]
 
-    # GET /parkings
+    # GET /parking
     def index
         @parkings = Parking.all
         json_response(@parkings)
@@ -16,12 +16,12 @@ class ParkingController < ApplicationController
         json_response(@parking, :created)
     end
 
-    # GET /parkings/:id
+    # GET /parking/:id
     def show
         json_response(@parking)
     end
 
-    # PUT /parkings/:id
+    # PUT /parking/:id
     def update
         @parking.update(parking_params)
         head :no_content
@@ -33,7 +33,7 @@ class ParkingController < ApplicationController
         head :no_content
     end
 
-    # GET /parking/:id/pay
+    # GET /parking/:parking_id/pay
     def pay
         @parking = Parking.find(params[:parking_id])
         @parking.paid = true
@@ -41,12 +41,18 @@ class ParkingController < ApplicationController
         json_response(@parking)
     end
 
-    # GET /parking/:id/out
+    # GET /parking/:parking_id/out
     def out
         @parking = Parking.find(params[:parking_id])
         if @parking.paid
             @parking.car_out = Time.now
-            json_response(@parking)
+            diff_time = @parking.car_out - @parking.car_in
+            minutes = (diff_time/60).to_i
+            json_response({ 
+                "id" => @parking.id,
+                "time" => "%d minutes" % minutes,
+                "paid" => true, 
+                "left" => false })
         else
             # head 402
             json_response({"message" => "payment required"}, 402)
