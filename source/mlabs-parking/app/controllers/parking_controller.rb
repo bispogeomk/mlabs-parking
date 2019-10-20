@@ -55,7 +55,7 @@ class ParkingController < ApplicationController
             json_response({ 
                 "id" => @parking.id,
                 "time" => "%d minutes" % minutes,
-                "paid" => true, 
+                "paid" => @parking.paid, 
                 "left" => true })
         else
             json_response({"message" => "payment required"}, 402)

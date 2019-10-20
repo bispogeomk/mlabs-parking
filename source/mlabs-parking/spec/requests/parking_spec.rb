@@ -22,11 +22,11 @@ RSpec.describe 'Parking API', type: :request do
 
     # Test suite for GET /parking/:id
     describe 'GET /parking/:plate' do
-        before { get "/parking/#{parking_plate}" }
+        before { get "/parking/#{parking_plate}/" }
         context 'when the record exists' do
-            it 'returns the parking car\'s' do
+            it 'returns events of the parking car\'s' do
+                puts "/parking/#{parking_plate}"
                 expect(json).not_to be_empty
-                expect(json['id']).to eq(parking_id)
             end
     
             it 'returns status code 200' do
