@@ -13,16 +13,14 @@ class ParkingController < ApplicationController
         @parking = Parking.create!(parking_params)
         @parking.car_in = Time.now
         @parking.car_out = nil
+        @parking.minutes = nil
+        @parking.paid = false
+        @parking.left = false
         @parking.save
         json_response({
             "id" => @parking.id, 
-            "plate" => @parking.plate}, :created)
+            "plate" => @parking.plate}, 201)
     end
-
-    # # GET /parking/:plate
-    # def show
-    #     json_response(@parkings)
-    # end
 
     # PUT /parking/:id
     def update
@@ -46,17 +44,18 @@ class ParkingController < ApplicationController
 
     # GET /parking/:parking_id/out
     def out
-        @parking = Parking.find(plate: params[:parking_id])
+        @parking = Parking.find(params[:parking_id])
         if @parking.paid
             @parking.car_out = Time.now
-            @parking.save
+            @parking.left = true
             diff_time = @parking.car_out - @parking.car_in
-            minutes = (diff_time/60).to_i
+            @parking.minutes = (diff_time/60).to_i
+            @parking.save
             json_response({ 
                 "id" => @parking.id,
-                "time" => "%d minutes" % minutes,
+                "time" => "%d minutes" % @parking.minutes,
                 "paid" => @parking.paid, 
-                "left" => true })
+                "left" => @parking.left }, 200)
         else
             json_response({"message" => "payment required"}, 402)
         end
@@ -71,24 +70,22 @@ class ParkingController < ApplicationController
         
         results = []
         Parking.where(plate: params[:plate]).find_each do |parking|
-            if parking.car_out
-                diff_time = parking.car_out - parking.car_in
-                left= true
+            if parking.minutes
+                minutes = parking.minutes
             else
                 diff_time = Time.now - parking.car_in
-                left= false
+                minutes = (diff_time/60).to_i
             end
-            minutes = (diff_time/60).to_i
             results.push({
                 "id" => parking.id,
                 "time" => "%d minutes" % minutes,
-                "paid" => true, 
-                "left" => left
+                "paid" => parking.paid, 
+                "left" => parking.left
             })
         end
 
         if results != []
-            json_response(results, :success)
+            json_response(results, 200)
         else
             json_response({"message" => "plate not found"}, 404)
         end

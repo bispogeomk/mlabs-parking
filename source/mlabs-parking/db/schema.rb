@@ -16,7 +16,9 @@ ActiveRecord::Schema.define(version: 2019_10_18_035319) do
     t.string "plate"
     t.datetime "car_in"
     t.datetime "car_out"
+    t.integer "minutes"
     t.boolean "paid"
+    t.boolean "left"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

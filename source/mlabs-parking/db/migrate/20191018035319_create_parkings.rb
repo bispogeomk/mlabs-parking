@@ -4,7 +4,9 @@ class CreateParkings < ActiveRecord::Migration[6.0]
       t.string :plate
       t.datetime :car_in
       t.datetime :car_out
+      t.integer :minutes
       t.boolean :paid
+      t.boolean :left
 
       t.timestamps
     end

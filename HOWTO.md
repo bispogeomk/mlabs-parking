@@ -86,7 +86,7 @@ end
 
 ## 7) Create the Model Parking:
 
-    $ rails g model Parking plate:string car_in:datetime car_out:datetime paid:boolean
+    $ rails g model Parking plate:string car_in:datetime car_out:datetime minutes:interger paid:boolean left:boolean
     
 ## 8) Initialize database
 
