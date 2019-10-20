@@ -16,6 +16,7 @@ services:
     environment: 
       - RAILS_ENV=development
       - NODE_ENV=development
+      - TZ=America/Fortaleza
     volumes:
       - ./source/mlabs-parking:/app
     ports:

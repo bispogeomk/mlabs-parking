@@ -10,6 +10,8 @@ class ParkingController < ApplicationController
     # POST /parkings
     def create
         @parking = Parking.create!(parking_params)
+        @parking.car_in = Time.now
+        @parking.car_out = nil
         json_response(@parking, :created)
     end
 
@@ -39,6 +41,10 @@ class ParkingController < ApplicationController
 
     def set_parking
         @parking = Parking.find(params[:id])
+    end
+
+    def set_parking_by_plate
+        @parking = Parking.find(params[:plate])
     end
 
 end

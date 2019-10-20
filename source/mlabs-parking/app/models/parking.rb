@@ -4,4 +4,5 @@ class Parking < ApplicationRecord
     validates :plate, length: { minimum: 8 }
     validates :plate, format: { with: /\A[A-Z]{3}-[0-9]{4}\z/,
         message: "format is AAA-9999" }
+
 end
