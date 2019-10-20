@@ -1,7 +1,7 @@
-# How To Parking API  in Ruby on Rails
+# How To Parking API  in ruby on Rails
 
 ## 1) Create Project Structure
-```bash
+``` bash
 $ rails new mlabs-parking --api -T
 ```
 
@@ -24,23 +24,23 @@ end
 ```
 
 ## 3) Install the gem's
-```bash
+``` bash
 $ bundle install
 ```
 
 ## 4) Initialize the spec directory 
-```bash
+``` bash
 $ rails generate rspec:install
 ```
 
 ## 5) Create a factories directory
-```bash
+``` bash
 $ mkdir spec/factories
 ```
 
 ## 6) Configuration In spec/rails_helper.rb
 - update the file "spec/rails_helper.rb" with informations
-```Ruby
+``` ruby
 # require database cleaner at the top level
 require 'database_cleaner'
 
@@ -83,7 +83,7 @@ end
     $ rails db:migrate
 
 ## 9) Set model test in file "./mlabs-parking/spec/models/parking_spec.rb"
-```ruby
+``` ruby
 require 'rails_helper'
 
 RSpec.describe Parking, type: :model do
@@ -95,13 +95,13 @@ end
 
 ## 10) See test fail!!!
 
-```bash
+``` bash
   $ rails db:environment:set RAILS_ENV=development
   $ bundle exec rspec
 ```
     
 ## 11) Set validations in "./mlabs-parking/app/models/parking.rb"
-```ruby
+``` ruby
 class Parking < ApplicationRecord
     # validations
     validates_presence_of :plate
@@ -112,7 +112,7 @@ end
 ```
 
 ## 12) Run test and see pass!
-```bash
+``` bash
 rake db:drop RAILS_ENV=development
 rake db:drop RAILS_ENV=test
 rake db:migrate RAILS_ENV=development
@@ -123,22 +123,22 @@ bundle exec rspec
 
 
 ## 13) Create controller structure
-```bash
+``` bash
 $ rails g controller Parking
 ```
 
 ## 14) Create structure for specifications of request API
-```bash
+``` bash
 $ mkdir spec/requests && touch spec/requests/parking_spec.rb
 ```
 
 ## 15) Create the factories
-```bash
+``` bash
 $ touch spec/factories/parkings.rb
 ```
 Information the user should notice even if skimming put in file "spec/factories/parkings.rb"
 
-```ruby
+``` ruby
 FactoryBot.define do
   factory :parking do
     plate { "AAA-9876" }
@@ -153,7 +153,7 @@ end
 
 - put in the file "spec/requests/parking_spec.rb"
   
-```Ruby
+``` ruby
 require 'rails_helper'
 
 RSpec.describe 'Parking API', type: :request do
@@ -179,17 +179,17 @@ RSpec.describe 'Parking API', type: :request do
 end
 ```
 
-## 17) Custom helper method json which parses the JSON response to a Ruby Hash
+## 17) Custom helper method json which parses the JSON response to a ruby Hash
 
 - make directorie and create file
 
-```bash
+``` bash
 $ mkdir spec/support && touch spec/support/request_spec_helper.rb
 ```
 
 - put in "spec/support/request_spec_helper.rb"
 
-```ruby
+``` ruby
 module RequestSpecHelper
   # Parse JSON response to ruby hash
   def json
@@ -202,7 +202,7 @@ end
 
 - change file "spec/rails_helper.rb" with:
 
-```ruby
+``` ruby
 # ...
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # ...
@@ -217,7 +217,7 @@ end
 
 - See test's broken!!!
 
-```bash
+``` bash
 $ bundle exec rspec
 ```
 
@@ -225,7 +225,7 @@ $ bundle exec rspec
 
 - put in "config/routes.rb"
 
-```ruby
+``` ruby
 Rails.application.routes.draw do
   resources :todos do
     resources :items
@@ -235,7 +235,7 @@ end
 
 - Create default routes
 
-```bash
+``` bash
 $ rails routes
 ```
 
@@ -243,6 +243,6 @@ $ rails routes
 
 - put in the file "config/environments/development.rb"
 
-```ruby
+``` ruby
 config.hosts = nil
 ```
