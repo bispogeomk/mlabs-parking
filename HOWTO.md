@@ -46,9 +46,9 @@ $ mkdir spec/factories
 
 ## 6) Configuration In spec/rails_helper.rb
 
-- update the file "spec/rails_helper.rb" with informations
+> update the file "spec/rails_helper.rb" with informations
 
-``` ruby
+```
 # require database cleaner at the top level
 require 'database_cleaner'
 
