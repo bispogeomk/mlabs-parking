@@ -1,6 +1,7 @@
 # How To Parking API  in ruby on Rails
 
 ## 1) Create Project Structure
+
 ``` bash
 $ rails new mlabs-parking --api -T
 ```
@@ -10,7 +11,9 @@ $ rails new mlabs-parking --api -T
 
 
 ## 2) Add Gem's for Testing, fixtures, more matchers and generate fake data.
+
 - put in the file "mlabs-parking/Gemfile"
+
 ```Gemfile
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -24,22 +27,27 @@ end
 ```
 
 ## 3) Install the gem's
+
 ``` bash
 $ bundle install
 ```
 
 ## 4) Initialize the spec directory 
+
 ``` bash
 $ rails generate rspec:install
 ```
 
 ## 5) Create a factories directory
+
 ``` bash
 $ mkdir spec/factories
 ```
 
 ## 6) Configuration In spec/rails_helper.rb
+
 - update the file "spec/rails_helper.rb" with informations
+
 ``` ruby
 # require database cleaner at the top level
 require 'database_cleaner'
@@ -77,12 +85,15 @@ end
 
 
 ## 7) Create the Model Parking:
+
     $ rails g model Parking plate:string car_in:datetime car_out:datetime paid:boolean
     
 ## 8) Initialize database
+
     $ rails db:migrate
 
 ## 9) Set model test in file "./mlabs-parking/spec/models/parking_spec.rb"
+
 ``` ruby
 require 'rails_helper'
 
@@ -101,6 +112,7 @@ end
 ```
     
 ## 11) Set validations in "./mlabs-parking/app/models/parking.rb"
+
 ``` ruby
 class Parking < ApplicationRecord
     # validations
@@ -112,6 +124,7 @@ end
 ```
 
 ## 12) Run test and see pass!
+
 ``` bash
 rake db:drop RAILS_ENV=development
 rake db:drop RAILS_ENV=test
@@ -121,18 +134,20 @@ bundle exec rspec
 
 ```
 
-
 ## 13) Create controller structure
+
 ``` bash
 $ rails g controller Parking
 ```
 
 ## 14) Create structure for specifications of request API
+
 ``` bash
 $ mkdir spec/requests && touch spec/requests/parking_spec.rb
 ```
 
 ## 15) Create the factories
+
 ``` bash
 $ touch spec/factories/parkings.rb
 ```
