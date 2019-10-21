@@ -44,12 +44,14 @@ API para controle de estacionamento
 # Especificações Técnicas
 
 **Routes**
-| Prefix |Verb|URI Pattern|Controller#Action|
-|-------------:|:----:|-----------|-----------------|
-|              | POST |   /parking(.:format)                 | parking#create|
-|  parking_pay | GET  |   /parking/:parking_id/pay(.:format) | parking#pay|
-|  parking_out | GET  |   /parking/:parking_id/out(.:format) | parking#out|
-|             -| GET  |   /parking/:plate(.:format)  |parking#historic|
+
+|Prefix      |Verb  |URI Pattern              |Controller#Action  |
+|------------|:----:|-------------------------|-------------------|
+|            |POST  |/parking                 |parking#create     |
+|parking_pay |GET   |/parking/:parking_id/pay |parking#pay        |
+|parking_out |GET   |/parking/:parking_id/out |parking#out        |
+|            |GET   |/parking/:plate          |parking#historic   |
+
 
 **Entrada no estacionamento**
 ----
