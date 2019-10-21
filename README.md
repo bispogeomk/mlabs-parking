@@ -21,11 +21,13 @@ Testar os conhecimentos, código e a organização do candidato no desenvolvimen
 - [Principais Funcionalidades](#principais-funcionalidades)
 - [Especificações Técnicas](#especifica%c3%a7%c3%b5es-t%c3%a9cnicas)
   - [**Entrada no estacionamento**](#entrada-no-estacionamento)
+  - [**Pagamento do estacionamento**](#pagamento-do-estacionamento)
+  - [**Saida do estacionamento**](#saida-do-estacionamento)
 - [Instalação](#instala%c3%a7%c3%a3o)
 - [Configuração](#configura%c3%a7%c3%a3o)
-- [Uso](#uso)
+- [Uso no desenvolvimento](#uso-no-desenvolvimento)
 - [Mantenedores](#mantenedores)
-- [License](#license)
+- [License MIT](#license-mit)
 
 
 # Visão Geral
@@ -34,26 +36,28 @@ API para controle de estacionamento
 
 # Principais Funcionalidades
 
-- Entra de carro
-- Pagamento do ticket
-- Saída de carro
-- Histórico de um dado carro
+- Entra no estacionamento
+- Pagamento do estacionamento
+- Saída de estacionamento
+- Histórico de uma dada placa
 
 # Especificações Técnicas
 
 **Routes**
-|Route|Methods|Restricted|
-|-----|-------|----------|
-|     |       |          |
-
+| Prefix |Verb|URI Pattern|Controller#Action|
+|-------------:|:----:|-----------|-----------------|
+|              | POST |   /parking(.:format)                 | parking#create|
+|  parking_pay | GET  |   /parking/:parking_id/pay(.:format) | parking#pay|
+|  parking_out | GET  |   /parking/:parking_id/out(.:format) | parking#out|
+|             -| GET  |   /parking/:plate(.:format)  |parking#historic|
 
 **Entrada no estacionamento**
 ----
-  <_Additional information about your API call. Try to use verbs that match both request type (fetching vs modifying) and plurality (one vs multiple)._>
+>  Criação do ticket de estacionamento no momento da entrada
 
 * **URL**
 
-  <_The URL Structure (path only, no root url)_>
+  /parking
 
 * **Method:**
   
@@ -67,31 +71,66 @@ API para controle de estacionamento
 
 * **Success Response:**
   
-  * **Code:** 200 <br />
+  * **Code:** 200
     **Content:** `{ id:1, plate: "XYZ-1234"}`
+
+
+**Pagamento do estacionamento**
+----
+>  Liberação da saida por meio do pagamento do ticket
+
+* **URL**
+
+  /parking/:parking_id/pay
+
+* **Method:**
+  
+  `GET`
+  
+*  **No URL Params**
+
+* **Data Params**
+
+  { id: 1 }
+
+* **Success Response:**
+  
+  * **Code:** 200
+    **Content:** `{ id:1, plate: "XYZ-1234", paid:true }`
  
 * **Error Response:**
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Plate Invalid" `
+  * **Code:** 404 NOT FOUND
+    **Content:** `{ message : "Couldn't find Parking" }`
 
+**Saida do estacionamento**
+----
+>  Saida do estacionamento
 
-- URL
-  - /parking
-- Method
-  - POST
-- URL Params
-  - sem paremetros
-- Data Params
-    { plate: "FAA-1234" }
-- Success Response
-  - Code: 200
-  - Content: { id : 1, plate : "FAA-1234" }
-- Error Response
-    
-    PUT /parking/:id/out
-    PUT /parking/:id/pay
-    GET /parking/:plate
+* **URL**
+
+  /parking/:parking_id/out
+
+* **Method:**
+  
+  `GET`
+  
+*  **No URL Params**
+
+* **Data Params**
+
+  { id: 1 }
+
+* **Success Response:**
+  
+  * **Code:** 200
+    **Content:** `{ id:1, plate: "XYZ-1234", time: "15 minutes", paid:true }`
+ 
+* **Error Response:**
+
+  * **Code:** 402 PAYMENT REQUIRED
+    **Content:** `{ message : "payment required" }`
+
 
 # Instalação
 
@@ -102,16 +141,27 @@ API para controle de estacionamento
 > - RAILS_ENV = development | test | production
 > 
 
-# Uso
+# Uso no desenvolvimento
 
 > Levantar a aplicação em modo desenvolvimento
-> ```bash
-> $ docker-compose up
-> ```
+
+Clone o projeto
+```
+$ make mlabs-parking
+$ git clone 
+
+```
+
+
+Suba a aplcação usando docker-compose
+
+```bash
+$ docker-compose up
+```
 
 
 # Mantenedores
  - Moacir Bispo - <bispo@det.ufc.br>
 
-# License
+# License MIT
 

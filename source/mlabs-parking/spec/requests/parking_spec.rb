@@ -9,19 +9,37 @@ RSpec.describe 'Parking API', type: :request do
     let(:parking_not_paid_id) { 2 }
     
     before :all do
-        puts "-- Alerta --"
-        @parkings = create_list(:parking, 2)
+        # @parkings = create_list(:parking, 2)
 
-        parking_paid = Parking.find(1)
-        parking_paid.paid = true
+        parking_paid = Parking.create(plate: "ABC-9876", paid:true, 
+                                      car_in: "2019-10-18 03:58:24",
+                                      car_out: nil, minutes:nil)
+        # parking_paid.paid = true
         parking_paid.save
         
-        parking_not_paid = Parking.find(2)
-        parking_not_paid.paid = false
+        # parking_not_paid = Parking.find(2)
+        parking_not_paid = Parking.create(plate: "ABC-9876", 
+                                          car_in: "2019-10-19 08:34:24",
+                                          paid:false,
+                                          car_out: nil, minutes:nil)
+        # parking_not_paid.paid = false
         parking_not_paid.save
 
     end
 
+    # Test suite for GET /parking
+    describe 'POST /parking' do
+        # make HTTP get request before each example
+        before { post '/parking', :params => {:plate => "HVE-4603" }}
+        it 'returns parking car\'s' do
+            expect(json).not_to be_empty
+            expect(json).to eq({"id"=>11, "plate"=>"HVE-4603"})
+        end
+
+        it 'returns status code 201' do
+            expect(response).to have_http_status(201)
+        end
+    end
 
     # Test suite for GET /parking
     describe 'GET /parking' do

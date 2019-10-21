@@ -63,6 +63,7 @@ steps:
    status:
     - success
 
+# trigger baseado no gitflow
 trigger:
   branch:
     - master
@@ -70,3 +71,4 @@ trigger:
     - release/*
   event:
     - push
+    - tag
