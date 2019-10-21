@@ -89,11 +89,9 @@ API para controle de estacionamento
   
   `GET`
   
-*  **No URL Params**
-
-* **Data Params**
-
-  { id: 1 }
+* **No URL Params**
+    
+* **No Data Params**
 
 * **Success Response:**
   
@@ -118,11 +116,9 @@ API para controle de estacionamento
   
   `GET`
   
-*  **No URL Params**
+* **No URL Params**
 
-* **Data Params**
-
-  { id: 1 }
+* **No Data Params**
 
 * **Success Response:**
   
