@@ -107,6 +107,7 @@ API para controle de estacionamento
 
 **Saida do estacionamento**
 ----
+
 >  Saida do estacionamento
 
 * **URL**
@@ -150,7 +151,7 @@ API para controle de estacionamento
 Clone o projeto
 ```
 $ git clone https://github.com/bispogeomk/mlabs-parking.git
-cd mlabs-parking
+$ cd mlabs-parking
 ```
 
 Rode a aplcação usando docker-compose
